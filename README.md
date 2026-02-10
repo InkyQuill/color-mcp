@@ -35,7 +35,7 @@ A Model Context Protocol (MCP) server for converting between various web color f
 
 ```bash
 # Clone the repository
-git clone https://github.com/inky/color-mcp.git
+git clone https://github.com/InkyQuill/color-mcp.git
 cd color-mcp
 
 # Build the binary
@@ -48,7 +48,7 @@ sudo install color-mcp /usr/local/bin/
 ### Using Go Install
 
 ```bash
-go install github.com/inky/color-mcp@latest
+go install github.com/InkyQuill/color-mcp@latest
 ```
 
 ## MCP Configuration
