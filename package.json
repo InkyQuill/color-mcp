@@ -1,0 +1,14 @@
+{
+  "name": "color-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "commitlint": "commitlint --edit",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.0.0",
+    "@commitlint/config-conventional": "^18.0.0",
+    "husky": "^8.0.0"
+  }
+}

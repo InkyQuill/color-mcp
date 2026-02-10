@@ -1,0 +1,92 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: Run tests
+        run: go test -v -race -cover ./...
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Build release binaries
+        env:
+          VERSION: ${{ steps.version.outputs.VERSION }}
+        run: |
+          mkdir -p dist
+
+          # Build for multiple platforms
+          for GOOS in linux darwin windows; do
+            for GOARCH in amd64 arm64; do
+              NAME=color-mcp-${GOOS}-${GOARCH}
+              if [ "${GOOS}" = "windows" ]; then
+                NAME=${NAME}.exe
+              fi
+
+              echo "Building ${NAME}..."
+              GOOS=${GOOS} GOARCH=${GOARCH} CGO_ENABLED=0 \
+                go build -ldflags="-s -w -X main.version=${VERSION}" \
+                -o dist/${NAME}
+
+              # Create checksum
+              if [ "${GOOS}" = "windows" ]; then
+                checksum=$(sha256sum dist/${NAME} | awk '{print $1}')
+                echo ${checksum} > dist/${NAME}.sha256
+              else
+                checksum=$(shasum -a 256 dist/${NAME} | awk '{print $1}')
+                echo ${checksum} > dist/${NAME}.sha256
+              fi
+            done
+          done
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          # Generate changelog from commits since last tag
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -z "$PREV_TAG" ]; then
+            NOTES="## Release ${VERSION}\n\nInitial release"
+          else
+            NOTES="## What's Changed\n\n"
+            NOTES=$(git log ${PREV_TAG}..HEAD --pretty=format:"- %s (%h)" | grep -E "^(feat|fix|docs|refactor|test|chore):" || echo "See full changelog in commits")
+          fi
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          echo "$NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        env:
+          VERSION: ${{ steps.version.outputs.VERSION }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: ${{ steps.release_notes.outputs.notes }}
+          draft: false
+          prerelease: false
+          files: |
+            dist/color-mcp-*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
