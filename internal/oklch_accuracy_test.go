@@ -23,7 +23,7 @@ func TestOKLCHAccuracyAgainstCulori(t *testing.T) {
 				C: 0.0,
 				H: 0.0, // Hue doesn't matter for achromatic
 			},
-			tolerance: 0.01,
+			tolerance:    0.01,
 			hueTolerance: 0.0,
 		},
 		{
@@ -34,7 +34,7 @@ func TestOKLCHAccuracyAgainstCulori(t *testing.T) {
 				C: 0.0,
 				H: 0.0,
 			},
-			tolerance: 0.01,
+			tolerance:    0.01,
 			hueTolerance: 0.0,
 		},
 		{
@@ -45,7 +45,7 @@ func TestOKLCHAccuracyAgainstCulori(t *testing.T) {
 				C: 0.0,
 				H: 0.0,
 			},
-			tolerance: 0.01,
+			tolerance:    0.01,
 			hueTolerance: 0.0,
 		},
 		{
@@ -56,7 +56,7 @@ func TestOKLCHAccuracyAgainstCulori(t *testing.T) {
 				C: 0.2576833038053608,
 				H: 29.233880279627854,
 			},
-			tolerance: 0.01,
+			tolerance:    0.01,
 			hueTolerance: 0.5,
 		},
 		{
@@ -67,7 +67,7 @@ func TestOKLCHAccuracyAgainstCulori(t *testing.T) {
 				C: 0.201, // Approximate
 				H: 27.67, // Approximate
 			},
-			tolerance: 0.05, // Higher tolerance for complex colors
+			tolerance:    0.05, // Higher tolerance for complex colors
 			hueTolerance: 10.0, // Allow up to 10 degrees difference for hue
 		},
 	}
@@ -186,10 +186,10 @@ func TestOKLCHToRGBRoundTrip(t *testing.T) {
 // TestOKLCHWithAlpha tests OKLCH conversions with alpha channel
 func TestOKLCHWithAlpha(t *testing.T) {
 	tests := []struct {
-		name         string
-		inputOKLCH   string
-		expectRGB    struct{ R, G, B, A float64 }
-		tolerance    float64
+		name       string
+		inputOKLCH string
+		expectRGB  struct{ R, G, B, A float64 }
+		tolerance  float64
 	}{
 		{
 			name:       "White with alpha",
@@ -290,8 +290,8 @@ func TestOKLCHEdgeCases(t *testing.T) {
 				// Should be a gray color
 				avg := (data.Color.R + data.Color.G + data.Color.B) / 3
 				if !almostEqual(data.Color.R, avg, 5.0) ||
-				   !almostEqual(data.Color.G, avg, 5.0) ||
-				   !almostEqual(data.Color.B, avg, 5.0) {
+					!almostEqual(data.Color.G, avg, 5.0) ||
+					!almostEqual(data.Color.B, avg, 5.0) {
 					t.Errorf("Expected gray, got RGB(%.2f, %.2f, %.2f)",
 						data.Color.R, data.Color.G, data.Color.B)
 				}

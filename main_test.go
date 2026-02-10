@@ -15,8 +15,8 @@ func TestMCPProtocol(t *testing.T) {
 		checkResult func(t *testing.T, result map[string]interface{})
 	}{
 		{
-			name: "initialize request",
-			request: `{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}`,
+			name:        "initialize request",
+			request:     `{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}`,
 			expectError: false,
 			checkResult: func(t *testing.T, result map[string]interface{}) {
 				if result["protocolVersion"] == nil {
@@ -33,8 +33,8 @@ func TestMCPProtocol(t *testing.T) {
 			},
 		},
 		{
-			name: "tools/list request",
-			request: `{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}`,
+			name:        "tools/list request",
+			request:     `{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}`,
 			expectError: false,
 			checkResult: func(t *testing.T, result map[string]interface{}) {
 				tools, ok := result["tools"].([]interface{})
@@ -48,8 +48,8 @@ func TestMCPProtocol(t *testing.T) {
 			},
 		},
 		{
-			name: "convert_color tool call",
-			request: `{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"convert_color","arguments":{"color":"#FF0000","target_format":"hsl"}}}`,
+			name:        "convert_color tool call",
+			request:     `{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"convert_color","arguments":{"color":"#FF0000","target_format":"hsl"}}}`,
 			expectError: false,
 			checkResult: func(t *testing.T, result map[string]interface{}) {
 				content, ok := result["content"].([]interface{})
@@ -64,8 +64,8 @@ func TestMCPProtocol(t *testing.T) {
 			},
 		},
 		{
-			name: "detect_format tool call",
-			request: `{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"detect_format","arguments":{"color":"rgb(255, 0, 0)"}}}`,
+			name:        "detect_format tool call",
+			request:     `{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"detect_format","arguments":{"color":"rgb(255, 0, 0)"}}}`,
 			expectError: false,
 			checkResult: func(t *testing.T, result map[string]interface{}) {
 				content, ok := result["content"].([]interface{})
@@ -79,8 +79,8 @@ func TestMCPProtocol(t *testing.T) {
 			},
 		},
 		{
-			name: "list_formats tool call",
-			request: `{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"list_formats","arguments":{}}}`,
+			name:        "list_formats tool call",
+			request:     `{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"list_formats","arguments":{}}}`,
 			expectError: false,
 			checkResult: func(t *testing.T, result map[string]interface{}) {
 				content, ok := result["content"].([]interface{})
@@ -94,14 +94,14 @@ func TestMCPProtocol(t *testing.T) {
 			},
 		},
 		{
-			name: "invalid method",
-			request: `{"jsonrpc":"2.0","id":6,"method":"invalid_method","params":{}}`,
+			name:        "invalid method",
+			request:     `{"jsonrpc":"2.0","id":6,"method":"invalid_method","params":{}}`,
 			expectError: true,
 			checkResult: nil,
 		},
 		{
-			name: "missing params",
-			request: `{"jsonrpc":"2.0","id":7,"method":"tools/call","params":{"name":"convert_color"}}`,
+			name:        "missing params",
+			request:     `{"jsonrpc":"2.0","id":7,"method":"tools/call","params":{"name":"convert_color"}}`,
 			expectError: true,
 			checkResult: nil,
 		},

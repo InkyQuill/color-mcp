@@ -2,17 +2,17 @@ package internal
 
 // Color space ranges
 const (
-	RGBMax      float64 = 255.0
-	RGBPercent  float64 = 100.0
-	HueMax        float64 = 360.0
-	SaturationMax float64 = 100.0
-	LightnessMax  float64 = 100.0
+	RGBMax          float64 = 255.0
+	RGBPercent      float64 = 100.0
+	HueMax          float64 = 360.0
+	SaturationMax   float64 = 100.0
+	LightnessMax    float64 = 100.0
 	OKLCH_L_Max     float64 = 1.0
 	OKLCH_L_Percent float64 = 100.0
 	OKLCH_C_Max     float64 = 0.4
 	OKLCH_H_Max     float64 = 360.0
-	AlphaMin float64 = 0.0
-	AlphaMax float64 = 1.0
+	AlphaMin        float64 = 0.0
+	AlphaMax        float64 = 1.0
 )
 
 // Gamma correction constants
@@ -27,8 +27,8 @@ const (
 
 // LAB conversion constants
 const (
-	labK = 29.0*29.0*29.0 / (3.0*3.0*3.0) // ≈ 903.2962962962963
-	labE = 6.0*6.0*6.0 / (29.0*29.0*29.0)   // ≈ 0.008856451679035631
+	labK = 29.0 * 29.0 * 29.0 / (3.0 * 3.0 * 3.0) // ≈ 903.2962962962963
+	labE = 6.0 * 6.0 * 6.0 / (29.0 * 29.0 * 29.0) // ≈ 0.008856451679035631
 )
 
 // Circle helpers

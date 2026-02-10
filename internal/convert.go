@@ -191,9 +191,9 @@ func oklchToRGB(l, c, h float64) (r, g, b float64) {
 	bVal := c * math.Sin(hRad)
 
 	// Convert OKLab to LMS (using culori formulas)
-	L := math.Pow(l + 0.3963377773761749*a + 0.2158037573099136*bVal, 3)
-	M := math.Pow(l - 0.1055613458156586*a - 0.0638541728258133*bVal, 3)
-	S := math.Pow(l - 0.0894841775298119*a - 1.2914855480194092*bVal, 3)
+	L := math.Pow(l+0.3963377773761749*a+0.2158037573099136*bVal, 3)
+	M := math.Pow(l-0.1055613458156586*a-0.0638541728258133*bVal, 3)
+	S := math.Pow(l-0.0894841775298119*a-1.2914855480194092*bVal, 3)
 
 	// Convert LMS to linear RGB (using culori formulas)
 	rLin := 4.0767416360759574*L - 3.3077115392580616*M + 0.2309699031821044*S
@@ -439,7 +439,7 @@ func cbrt(x float64) float64 {
 
 // D65 illuminant XYZ values (from CSS Color Module / culori)
 var xyzD65 = [3]float64{
-	0.3127 / 0.329,                      // ≈ 0.9504559270516716
+	0.3127 / 0.329, // ≈ 0.9504559270516716
 	1.0,
-	(1 - 0.3127 - 0.329) / 0.329,        // ≈ 1.08905775075988
+	(1 - 0.3127 - 0.329) / 0.329, // ≈ 1.08905775075988
 }

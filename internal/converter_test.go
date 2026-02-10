@@ -8,10 +8,10 @@ import (
 // TestFormatDetection tests format detection for all supported formats
 func TestFormatDetection(t *testing.T) {
 	tests := []struct {
-		name        string
-		input       string
+		name         string
+		input        string
 		expectFormat ColorFormat
-		expectError bool
+		expectError  bool
 	}{
 		// HEX formats
 		{"HEX 3 digit", "#F00", FormatHEX, false},
@@ -91,14 +91,14 @@ func TestFormatDetection(t *testing.T) {
 // TestHEXParsing tests HEX color parsing
 func TestHEXParsing(t *testing.T) {
 	tests := []struct {
-		input    string
-		expectR  float64
-		expectG  float64
-		expectB  float64
-		expectA  float64
+		input   string
+		expectR float64
+		expectG float64
+		expectB float64
+		expectA float64
 	}{
 		{"#F00", 255, 0, 0, 1},
-		{"#F00F", 255, 0, 0, 1},  // #F00F where F = 15 (full alpha)
+		{"#F00F", 255, 0, 0, 1}, // #F00F where F = 15 (full alpha)
 		{"#FF0000", 255, 0, 0, 1},
 		{"#FF000080", 255, 0, 0, 128.0 / 255.0},
 		{"#000", 0, 0, 0, 1},
@@ -128,11 +128,11 @@ func TestHEXParsing(t *testing.T) {
 // TestRGBToHSL tests RGB to HSL conversion
 func TestRGBToHSL(t *testing.T) {
 	tests := []struct {
-		name     string
-		r, g, b  float64
-		expectH  float64
-		expectS  float64
-		expectL  float64
+		name    string
+		r, g, b float64
+		expectH float64
+		expectS float64
+		expectL float64
 	}{
 		{"Red", 255, 0, 0, 0, 100, 50},
 		{"Green", 0, 255, 0, 120, 100, 50},
@@ -187,12 +187,12 @@ func TestHSLToRGB(t *testing.T) {
 // TestRGBToOKLCH tests RGB to OKLCH conversion
 func TestRGBToOKLCH(t *testing.T) {
 	tests := []struct {
-		name              string
-		r, g, b           float64
-		expectLMin, LMax  float64
+		name             string
+		r, g, b          float64
+		expectLMin, LMax float64
 	}{
 		{"Black", 0, 0, 0, 0, 0.1},
-		{"White", 255, 255, 255, 0.9, 1.1},  // OKLCH L can be slightly > 1 for pure white
+		{"White", 255, 255, 255, 0.9, 1.1}, // OKLCH L can be slightly > 1 for pure white
 		{"Red", 255, 0, 0, 0.6, 0.8},
 		{"Green", 0, 255, 0, 0.7, 0.9},
 		{"Blue", 0, 0, 255, 0.3, 0.6},
@@ -429,9 +429,9 @@ func TestRealColorValues(t *testing.T) {
 // TestCMYKConversion tests CMYK conversions
 func TestCMYKConversion(t *testing.T) {
 	tests := []struct {
-		input         string
-		targetFormat  string
-		expectError   bool
+		input        string
+		targetFormat string
+		expectError  bool
 	}{
 		{"#FF0000", "cmyk", false},
 		{"#00FF00", "cmyk", false},

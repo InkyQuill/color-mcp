@@ -28,13 +28,13 @@ const (
 // Color represents a color in RGB format with optional alpha
 type Color struct {
 	R, G, B float64 // 0-255
-	A      float64 // 0-1, 1 if no alpha
+	A       float64 // 0-1, 1 if no alpha
 }
 
 // ColorData represents parsed color with format information
 type ColorData struct {
-	Color  Color
-	Format ColorFormat
+	Color    Color
+	Format   ColorFormat
 	Original string
 }
 

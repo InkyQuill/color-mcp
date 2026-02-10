@@ -80,11 +80,11 @@ func TestCompareColors_Indistinguishable(t *testing.T) {
 
 func TestCompareColors_SlightlyDifferent(t *testing.T) {
 	tests := []struct {
-		name      string
-		color1    string
-		color2    string
-		minDE     float64
-		maxDE     float64
+		name          string
+		color1        string
+		color2        string
+		minDE         float64
+		maxDE         float64
 		expectVerdict VerdictType
 	}{
 		{"Lightness shift", "#FF0000", "#E60000", 0.02, 0.10, VerdictSlightlyDifferent},
@@ -142,11 +142,11 @@ func TestCompareColors_Different(t *testing.T) {
 
 func TestCompareColors_ContrastRatio(t *testing.T) {
 	tests := []struct {
-		name          string
-		color1        string
-		color2        string
-		minRatio      float64
-		expectGrade   string
+		name        string
+		color1      string
+		color2      string
+		minRatio    float64
+		expectGrade string
 	}{
 		{"Black vs White (AAA)", "#000000", "#FFFFFF", 20.0, "AAA"},
 		{"Dark gray vs White (AA)", "#333333", "#FFFFFF", 12.0, "AAA"},

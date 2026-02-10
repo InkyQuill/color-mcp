@@ -111,20 +111,20 @@ func TestRealWorldColors(t *testing.T) {
 		// Additional colors from your examples
 		// Note: OKLCH conversions are approximate, we just verify they work
 		{
-			name:         "Lavender OKLCH to RGB",
-			inputColor:   "oklch(0.819 0.1198 312.13)",
-			inputFormat:  FormatOKLCH,
-			targetFormat: "rgb",
+			name:           "Lavender OKLCH to RGB",
+			inputColor:     "oklch(0.819 0.1198 312.13)",
+			inputFormat:    FormatOKLCH,
+			targetFormat:   "rgb",
 			expectedValues: map[string]float64{}, // No RGB validation, just check it works
-			tolerance: 200.0, // Very high tolerance - just verify conversion doesn't crash
+			tolerance:      200.0,                // Very high tolerance - just verify conversion doesn't crash
 		},
 		{
-			name:         "Yellow OKLCH to RGB",
-			inputColor:   "oklch(0.8642 0.176983 93.2047)",
-			inputFormat:  FormatOKLCH,
-			targetFormat: "rgb",
+			name:           "Yellow OKLCH to RGB",
+			inputColor:     "oklch(0.8642 0.176983 93.2047)",
+			inputFormat:    FormatOKLCH,
+			targetFormat:   "rgb",
 			expectedValues: map[string]float64{}, // No RGB validation
-			tolerance: 200.0,
+			tolerance:      200.0,
 		},
 	}
 
@@ -275,28 +275,28 @@ func TestAlphaChannelPreservation(t *testing.T) {
 // Note: HSL format doesn't preserve alpha in round-trip (HSL has no alpha)
 func TestRoundTripAccuracy(t *testing.T) {
 	tests := []struct {
-		name        string
-		color       string
+		name         string
+		color        string
 		intermediate string
-		tolerance   float64
+		tolerance    float64
 	}{
 		{
-			name:        "White round-trip through HSL",
-			color:       "#ffffff",
+			name:         "White round-trip through HSL",
+			color:        "#ffffff",
 			intermediate: "hsl",
-			tolerance:   1.0,
+			tolerance:    1.0,
 		},
 		{
-			name:        "Red round-trip through HSL",
-			color:       "#ff0000",
+			name:         "Red round-trip through HSL",
+			color:        "#ff0000",
 			intermediate: "hsl",
-			tolerance:   1.0,
+			tolerance:    1.0,
 		},
 		{
-			name:        "Green round-trip through HSL",
-			color:       "#00ff00",
+			name:         "Green round-trip through HSL",
+			color:        "#00ff00",
 			intermediate: "hsl",
-			tolerance:   1.0,
+			tolerance:    1.0,
 		},
 	}
 
@@ -410,14 +410,14 @@ func TestColorFormatEquivalence(t *testing.T) {
 // TestEdgeCaseColors tests edge cases and special color values
 func TestEdgeCaseColors(t *testing.T) {
 	tests := []struct {
-		name         string
-		input        string
-		shouldFail   bool
-		checkOutput  func(t *testing.T, result string)
+		name        string
+		input       string
+		shouldFail  bool
+		checkOutput func(t *testing.T, result string)
 	}{
 		{
-			name: "Pure white OKLCH",
-			input: "oklch(1 0 180)",
+			name:       "Pure white OKLCH",
+			input:      "oklch(1 0 180)",
 			shouldFail: false,
 			checkOutput: func(t *testing.T, result string) {
 				// Should convert successfully
@@ -427,8 +427,8 @@ func TestEdgeCaseColors(t *testing.T) {
 			},
 		},
 		{
-			name: "Pure black with alpha",
-			input: "oklch(0 0 0 / 0.6667)",
+			name:       "Pure black with alpha",
+			input:      "oklch(0 0 0 / 0.6667)",
 			shouldFail: false,
 			checkOutput: func(t *testing.T, result string) {
 				if result == "" {
@@ -437,8 +437,8 @@ func TestEdgeCaseColors(t *testing.T) {
 			},
 		},
 		{
-			name: "Low alpha value",
-			input: "rgba(255, 0, 0, 0.01)",
+			name:       "Low alpha value",
+			input:      "rgba(255, 0, 0, 0.01)",
 			shouldFail: false,
 			checkOutput: func(t *testing.T, result string) {
 				if result == "" {
@@ -447,8 +447,8 @@ func TestEdgeCaseColors(t *testing.T) {
 			},
 		},
 		{
-			name: "High alpha value",
-			input: "rgba(255, 0, 0, 0.99)",
+			name:       "High alpha value",
+			input:      "rgba(255, 0, 0, 0.99)",
 			shouldFail: false,
 			checkOutput: func(t *testing.T, result string) {
 				if result == "" {

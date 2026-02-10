@@ -42,9 +42,9 @@ type Tool struct {
 }
 
 type InputSchema struct {
-	Type       string                 `json:"type"`
-	Properties map[string]Property    `json:"properties"`
-	Required   []string               `json:"required"`
+	Type       string              `json:"type"`
+	Properties map[string]Property `json:"properties"`
+	Required   []string            `json:"required"`
 }
 
 type Property struct {

@@ -17,14 +17,14 @@ const (
 
 // ComparisonResult contains detailed comparison metrics between two colors
 type ComparisonResult struct {
-	Color1, Color2   ColorData
-	PerceptualDiff   float64   // OKLCH ΔE (0-1+)
-	Verdict          VerdictType
-	HueDiff          float64   // 0-360° (HSL-based)
-	LightnessDiff    float64   // 0-100% (HSL-based)
-	SaturationDiff   float64   // 0-100% (HSL-based)
-	ContrastRatio    float64   // WCAG ratio (1-21)
-	WCAGGrade        string
+	Color1, Color2 ColorData
+	PerceptualDiff float64 // OKLCH ΔE (0-1+)
+	Verdict        VerdictType
+	HueDiff        float64 // 0-360° (HSL-based)
+	LightnessDiff  float64 // 0-100% (HSL-based)
+	SaturationDiff float64 // 0-100% (HSL-based)
+	ContrastRatio  float64 // WCAG ratio (1-21)
+	WCAGGrade      string
 }
 
 // CompareColors compares two colors for perceptual similarity, component differences, and contrast ratio
