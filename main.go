@@ -12,7 +12,7 @@ import (
 
 const (
 	serverName    = "color-mcp"
-	serverVersion = "1.0.0"
+	serverVersion = "0.0.0-dev" // Managed by semantic-release
 )
 
 // MCP protocol structures
