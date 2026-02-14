@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/inky/color-mcp/internal"
+	"github.com/InkyQuill/color-mcp/internal"
 )
 
 const (
