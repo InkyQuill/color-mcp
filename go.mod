@@ -1,3 +1,3 @@
-module github.com/inky/color-mcp
+module github.com/InkyQuill/color-mcp
 
 go 1.23
