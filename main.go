@@ -48,9 +48,10 @@ type InputSchema struct {
 }
 
 type Property struct {
-	Type        string   `json:"type"`
-	Description string   `json:"description"`
-	Enum        []string `json:"enum,omitempty"`
+	Type        string    `json:"type"`
+	Description string    `json:"description"`
+	Enum        []string  `json:"enum,omitempty"`
+	Items       *Property `json:"items,omitempty"`
 }
 
 type ToolCallParams struct {
@@ -210,6 +211,32 @@ func handleToolsList(req *MCPRequest) {
 				Required: []string{"color1", "color2"},
 			},
 		},
+		{
+			Name:        "convert_colors_batch",
+			Description: "Convert multiple colors between different web color formats in a single request",
+			InputSchema: InputSchema{
+				Type: "object",
+				Properties: map[string]Property{
+					"colors": {
+						Type:        "array",
+						Description: "Array of input color values in any supported format",
+						Items: &Property{
+							Type: "string",
+						},
+					},
+					"target_format": {
+						Type:        "string",
+						Description: "Target color format for all conversions",
+						Enum:        internal.GetSupportedFormats(),
+					},
+					"preserve_alpha": {
+						Type:        "boolean",
+						Description: "Whether to preserve the alpha channel (default: true)",
+					},
+				},
+				Required: []string{"colors", "target_format"},
+			},
+		},
 	}
 
 	response := MCPResponse{
@@ -241,6 +268,8 @@ func handleToolsCall(req *MCPRequest) {
 		result, err = listFormats(params.Arguments)
 	case "compare_colors":
 		result, err = compareColors(params.Arguments)
+	case "convert_colors_batch":
+		result, err = convertColorsBatch(params.Arguments)
 	default:
 		sendError(req.ID, -32601, "Unknown tool: "+params.Name, nil)
 		return
@@ -364,6 +393,83 @@ func compareColors(args map[string]interface{}) (CallToolResult, error) {
 	return CallToolResult{
 		Content: []ContentItem{
 			{Type: "text", Text: resultText},
+		},
+	}, nil
+}
+
+func convertColorsBatch(args map[string]interface{}) (CallToolResult, error) {
+	// Extract colors array
+	colorsInterface, ok := args["colors"].([]interface{})
+	if !ok {
+		return CallToolResult{}, fmt.Errorf("colors parameter is required and must be an array")
+	}
+
+	// Validate array is not empty
+	if len(colorsInterface) == 0 {
+		return CallToolResult{}, fmt.Errorf("colors array cannot be empty")
+	}
+
+	// Convert to string slice
+	colors := make([]string, 0, len(colorsInterface))
+	for i, c := range colorsInterface {
+		colorStr, ok := c.(string)
+		if !ok {
+			return CallToolResult{}, fmt.Errorf("color at index %d is not a string", i)
+		}
+		if strings.TrimSpace(colorStr) == "" {
+			return CallToolResult{}, fmt.Errorf("color at index %d is empty", i)
+		}
+		colors = append(colors, colorStr)
+	}
+
+	// Extract target format
+	targetFormat, ok := args["target_format"].(string)
+	if !ok {
+		return CallToolResult{}, fmt.Errorf("target_format parameter is required and must be a string")
+	}
+
+	// Extract preserve alpha option
+	preserveAlpha := true
+	if pa, ok := args["preserve_alpha"].(bool); ok {
+		preserveAlpha = pa
+	}
+
+	// Perform batch conversion
+	results := make(map[string]string)
+	errors := make(map[string]string)
+
+	for _, color := range colors {
+		converted, err := internal.Convert(color, targetFormat, preserveAlpha)
+		if err != nil {
+			errors[color] = err.Error()
+		} else {
+			results[color] = converted
+		}
+	}
+
+	// Format output
+	var builder strings.Builder
+	builder.WriteString(fmt.Sprintf("Batch Conversion to %s\n", targetFormat))
+	builder.WriteString(fmt.Sprintf("Alpha preserved: %t\n", preserveAlpha))
+	builder.WriteString(fmt.Sprintf("Total colors: %d\n\n", len(colors)))
+
+	if len(results) > 0 {
+		builder.WriteString("Converted colors:\n")
+		for input, output := range results {
+			builder.WriteString(fmt.Sprintf("  %s → %s\n", input, output))
+		}
+	}
+
+	if len(errors) > 0 {
+		builder.WriteString("\nErrors:\n")
+		for input, errMsg := range errors {
+			builder.WriteString(fmt.Sprintf("  %s: %s\n", input, errMsg))
+		}
+	}
+
+	return CallToolResult{
+		Content: []ContentItem{
+			{Type: "text", Text: builder.String()},
 		},
 	}, nil
 }
