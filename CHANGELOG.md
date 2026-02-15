@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.2.0](https://github.com/InkyQuill/color-mcp/compare/v1.1.0...v1.2.0) (2026-02-15)
+
+
+### Features
+
+* add batch color conversion tool ([cb187b1](https://github.com/InkyQuill/color-mcp/commit/cb187b148746b13ab46c218cf97c6a035529725d))
+
 # [1.1.0](https://github.com/InkyQuill/color-mcp/compare/v1.0.1...v1.1.0) (2026-02-14)
 
 
